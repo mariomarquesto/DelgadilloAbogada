@@ -11,6 +11,7 @@ if (import.meta.env.DEV) {
   console.error = (...args) => {
     const message = args[0]?.toString?.() || ''
     
+    // Lista de errores a silenciar
     const silencedPatterns = [
       'THREE.WebGLRenderer',
       'WebGL context lost',

@@ -1,10 +1,25 @@
-// components/ui/ThreeDScene.tsx (versión sin Environment)
+// components/ui/ThreeDScene.tsx
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Float } from '@react-three/drei'
-import { Suspense } from 'react'
+import { OrbitControls, Float, Environment } from '@react-three/drei'
+import { Suspense, useState, useEffect } from 'react'
 import JusticeScale from '../3d/JusticeScale'
 
 const ThreeDScene = () => {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+    return () => setIsMounted(false)
+  }, [])
+
+  if (!isMounted) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="w-10 h-10 border-3 border-gold/20 border-t-gold rounded-full animate-spin"></div>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full h-full rounded-xl overflow-hidden relative">
       <Canvas 
@@ -14,18 +29,27 @@ const ThreeDScene = () => {
           antialias: true,
           alpha: true,
           powerPreference: "high-performance",
-          failIfMajorPerformanceCaveat: false
+          failIfMajorPerformanceCaveat: false,
+          stencil: false,
+          depth: true,
+          preserveDrawingBuffer: false
         }}
         dpr={[1, 1.5]}
         style={{ background: 'transparent' }}
+        // ✅ Evita que el contexto se pierda al cambiar de pestaña
+        onCreated={({ gl }) => {
+          gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
+        }}
       >
-        {/* 🔥 Iluminación mejorada para que la balanza se vea bien */}
-        <ambientLight intensity={0.8} color="#ffffff" />
-        <directionalLight position={[5, 10, 5]} intensity={1.5} color="#ffffff" />
-        <directionalLight position={[-5, 5, -5]} intensity={0.8} color="#C9A96E" />
+        {/* ✅ Fondo transparente */}
+        <color attach="background" args={['transparent']} />
+        
+        {/* 🔥 Iluminación mejorada */}
+        <ambientLight intensity={0.6} color="#ffffff" />
+        <directionalLight position={[5, 10, 5]} intensity={1.2} color="#ffffff" />
+        <directionalLight position={[-5, 5, -5]} intensity={0.6} color="#C9A96E" />
         <directionalLight position={[0, -3, 0]} intensity={0.3} color="#C9A96E" />
         <pointLight position={[0, 3, 0]} intensity={0.5} color="#C9A96E" />
-        <pointLight position={[-3, 0, 3]} intensity={0.3} color="#ffffff" />
         
         <Suspense fallback={null}>
           <Float 
@@ -35,6 +59,11 @@ const ThreeDScene = () => {
           >
             <JusticeScale />
           </Float>
+          
+          <Environment 
+            preset="studio" 
+            background={false}
+          />
           
           <OrbitControls 
             enableZoom={false} 
