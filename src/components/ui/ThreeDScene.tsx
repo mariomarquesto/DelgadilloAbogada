@@ -16,7 +16,6 @@ const ThreeDScene = () => {
         }}
         className="text-center"
       >
-        {/* Logo SD grande y elegante */}
         <div className="text-7xl md:text-8xl font-serif font-bold text-gold/80 mb-4">
           SD
         </div>
