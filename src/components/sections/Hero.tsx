@@ -17,7 +17,7 @@ import {
   FaUsers
 } from 'react-icons/fa'
 import { MdVerified, MdSecurity } from 'react-icons/md'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 
 const Hero = () => {
   // Texto para efecto de escritura
@@ -63,7 +63,7 @@ const Hero = () => {
     { value: '24/7', label: 'Disponibilidad', icon: FaClock, delay: 1.5 }
   ]
 
-  // Badges de confianza con colores aleatorios
+  // Badges de confianza
   const trustBadges = [
     { icon: MdVerified, text: 'Matriculada en Tucumán', color: 'from-blue-500/20 to-cyan-500/20' },
     { icon: MdSecurity, text: 'Confidencialidad Garantizada', color: 'from-green-500/20 to-emerald-500/20' },
@@ -390,9 +390,29 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="relative"
           >
-            {/* Contenedor 3D */}
+            {/* Contenedor 3D CON SUSPENSE - CORREGIDO */}
             <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full">
-              {typeof window !== 'undefined' && <ThreeDScene />}
+              {typeof window !== 'undefined' && (
+                <Suspense fallback={
+                  <div className="flex items-center justify-center w-full h-full">
+                    <div className="flex flex-col items-center gap-3">
+                      {/* Spinner elegante */}
+                      <div className="relative">
+                        <div className="w-12 h-12 border-3 border-gold/20 border-t-gold rounded-full animate-spin"></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-6 h-6 border-3 border-gold/10 border-b-gold rounded-full animate-spin animation-delay-150"></div>
+                        </div>
+                      </div>
+                      {/* Texto sin "Cargando" - solo el nombre */}
+                      <p className="text-gold/50 text-xs font-light tracking-wider">
+                        Dra. Sandra Delgadillo
+                      </p>
+                    </div>
+                  </div>
+                }>
+                  <ThreeDScene />
+                </Suspense>
+              )}
             </div>
 
             {/* Estadísticas flotantes CON ANIMACIÓN INDIVIDUAL */}

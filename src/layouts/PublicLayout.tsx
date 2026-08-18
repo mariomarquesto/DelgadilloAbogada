@@ -24,9 +24,29 @@ const PublicLayout = () => {
     return () => clearTimeout(timer)
   }, [location.pathname])
 
+  // Frases rotativas para el loader
+  const loadingMessages = [
+    'Dra. Sandra Delgadillo',
+    'Estudio Jurídico Delgadillo',
+    'Justicia con vocación',
+    'Abogada en Tucumán',
+    '15 años de experiencia'
+  ]
+
+  const [messageIndex, setMessageIndex] = useState(0)
+
+  useEffect(() => {
+    if (isLoading) {
+      const interval = setInterval(() => {
+        setMessageIndex((prev) => (prev + 1) % loadingMessages.length)
+      }, 1000)
+      return () => clearInterval(interval)
+    }
+  }, [isLoading])
+
   return (
     <div className="min-h-screen bg-primary relative">
-      {/* LOADER GLOBAL - Personalizado */}
+      {/* LOADER GLOBAL - Personalizado con Sandra Delgadillo */}
       <AnimatePresence>
         {isLoading && (
           <motion.div
@@ -77,22 +97,23 @@ const PublicLayout = () => {
                 />
               </div>
               
-              {/* Mensaje de carga - Personalizado */}
+              {/* Mensaje de carga rotativo - AHORA MUESTRA SANDRA DELGADILLO */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
+                key={messageIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
                 className="flex flex-col items-center gap-1"
               >
                 <p className="text-gray-400 text-sm font-light tracking-wider">
-                  Preparando tu asesoría legal
+                  {loadingMessages[messageIndex]}
                 </p>
                 <motion.p
                   animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
-                  className="text-gold/50 text-xs font-light tracking-[0.2em]"
+                  className="text-gold/40 text-xs font-light tracking-[0.2em]"
                 >
-                  Justicia con vocación
+                  ⚖️
                 </motion.p>
               </motion.div>
             </div>
@@ -179,7 +200,7 @@ const PublicLayout = () => {
         </motion.a>
       </motion.div>
 
-      {/* Barra de progreso de scroll (opcional) */}
+      {/* Barra de progreso de scroll */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-0.5 bg-gold z-50 origin-left"
         initial={{ scaleX: 0 }}
