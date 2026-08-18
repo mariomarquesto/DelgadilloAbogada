@@ -69,9 +69,9 @@ const TechnologySecuritySection = () => {
 
   return (
     <section className="py-20 bg-gradient-to-b from-primary to-primary/95 relative overflow-hidden">
-      {/* Fondo con efecto de grid tecnológico */}
+      {/* ✅ Fondo con efecto de grid tecnológico - SIN animate-pulse */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,#C9A96E_50%,transparent_75%)] bg-[length:20px_20px] animate-pulse"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,#C9A96E_50%,transparent_75%)] bg-[length:20px_20px]"></div>
       </div>
 
       <div className="container-custom relative z-10">

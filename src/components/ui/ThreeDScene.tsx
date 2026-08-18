@@ -7,14 +7,12 @@ import JusticeScale from '../3d/JusticeScale'
 const ThreeDScene = () => {
   const [hasError, setHasError] = useState(false)
 
-  // Manejar errores de WebGL
   useEffect(() => {
     const handleContextLost = (e: Event) => {
       e.preventDefault()
       console.warn('WebGL context lost, intentando recuperar...')
       setHasError(true)
       
-      // Intentar recuperar después de 2 segundos
       setTimeout(() => {
         setHasError(false)
         window.location.reload()
@@ -37,8 +35,13 @@ const ThreeDScene = () => {
 
   if (hasError) {
     return (
-      <div className="w-full h-full flex items-center justify-center text-gold">
-        <p>Recuperando escena 3D...</p>
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-3 border-gold/20 border-t-gold rounded-full animate-spin"></div>
+          <p className="text-gold/50 text-xs font-light tracking-wider">
+            Recuperando escena 3D...
+          </p>
+        </div>
       </div>
     )
   }
@@ -52,15 +55,14 @@ const ThreeDScene = () => {
           antialias: true,
           alpha: true,
           powerPreference: "high-performance",
-          failIfMajorPerformanceCaveat: false, // 👈 Importante
+          failIfMajorPerformanceCaveat: false,
           depth: true,
           stencil: false,
           preserveDrawingBuffer: false
         }}
-        dpr={[1, 1.5]} // Reducir DPR para mejor rendimiento
+        dpr={[1, 1]} // ✅ Reducir DPR a 1 para mejor rendimiento
         onCreated={(state) => {
-          // Configurar el renderer para mejor estabilidad
-          state.gl.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+          state.gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
         }}
       >
         <ambientLight intensity={0.5} />

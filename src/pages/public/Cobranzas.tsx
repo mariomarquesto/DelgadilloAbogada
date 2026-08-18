@@ -7,13 +7,10 @@ import {
   FaHandshake, 
   FaGavel, 
   FaShieldAlt,
-  
   FaChartLine,
   FaCheckCircle,
-  
   FaFileInvoice,
   FaBalanceScale,
-
   FaRocket
 } from 'react-icons/fa'
 import { MdVerified, MdSecurity, MdSpeed, MdAnalytics } from 'react-icons/md'
