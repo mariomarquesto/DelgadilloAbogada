@@ -4,25 +4,26 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
-// ✅ Suprimir errores de extensiones de Chrome y WebGL
+// ✅ Silenciar TODOS los errores de WebGL y extensiones
 if (import.meta.env.DEV) {
+  // Silenciar console.error
   const originalError = console.error
   console.error = (...args) => {
-    const message = typeof args[0] === 'string' ? args[0] : ''
+    const message = args[0]?.toString?.() || ''
     
-    // Lista de errores a silenciar
-    const silencedErrors = [
+    const silencedPatterns = [
+      'THREE.WebGLRenderer',
+      'WebGL context lost',
+      'Context Lost',
       'A listener indicated an asynchronous response',
       'Could not establish connection',
       'Unchecked runtime.lastError',
-      'WebGL context lost',
-      'Context Lost',
-      'THREE.WebGLRenderer',
-      'ResizeObserver loop'
+      'ResizeObserver loop',
+      'THREE.Clock',
+      'deprecated'
     ]
     
-    // Verificar si el error está en la lista de silenciados
-    const shouldSilence = silencedErrors.some(error => message.includes(error))
+    const shouldSilence = silencedPatterns.some(pattern => message.includes(pattern))
     
     if (shouldSilence) {
       return
@@ -31,19 +32,20 @@ if (import.meta.env.DEV) {
     originalError.apply(console, args)
   }
 
+  // Silenciar console.warn
   const originalWarn = console.warn
   console.warn = (...args) => {
-    const message = typeof args[0] === 'string' ? args[0] : ''
+    const message = args[0]?.toString?.() || ''
     
     const silencedWarnings = [
+      'THREE.WebGLRenderer',
       'WebGL context lost',
       'Context Lost',
-      'THREE.WebGLRenderer',
       'THREE.Clock',
       'deprecated'
     ]
     
-    const shouldSilence = silencedWarnings.some(warning => message.includes(warning))
+    const shouldSilence = silencedWarnings.some(pattern => message.includes(pattern))
     
     if (shouldSilence) {
       return
