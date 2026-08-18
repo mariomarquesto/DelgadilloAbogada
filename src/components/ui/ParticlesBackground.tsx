@@ -27,7 +27,8 @@ function ParticleSystem() {
     return positions
   }, [])
 
-  useFrame((state, delta) => {
+  // ✅ Corregido: _state en lugar de state
+  useFrame((_state, delta) => {
     if (ref.current && mounted) {
       ref.current.rotation.x += delta * 0.02
       ref.current.rotation.y += delta * 0.01

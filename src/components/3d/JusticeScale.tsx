@@ -6,7 +6,8 @@ import { Group } from 'three'
 const JusticeScale = () => {
   const groupRef = useRef<Group>(null)
 
-  useFrame((state, delta) => {
+  // ✅ Corregido: _state para indicar que no se usa
+  useFrame((_state, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += delta * 0.3
     }

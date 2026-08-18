@@ -1,4 +1,6 @@
-import { ReactNode } from 'react'
+// components/ui/Button.tsx
+// ✅ Importación de tipo con 'type' para verbatimModuleSyntax
+import { type ReactNode } from 'react'
 
 interface ButtonProps {
   children: ReactNode
