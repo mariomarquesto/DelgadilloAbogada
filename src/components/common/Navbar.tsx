@@ -10,28 +10,57 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const isFirstRender = useRef(true)
 
-  // Scroll
+  // ─── Scroll ───────────────────────────────────────────────
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
-    handleScroll() // ejecutar al montar
+    handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Cerrar dropdown y menú móvil al cambiar de ruta
+  // ─── Cerrar dropdown/menú al cambiar de ruta ──────────────
+  // ⚠️ NO dependemos de closeMenu para evitar loops
   useEffect(() => {
     setActiveDropdown(null)
-    closeMenu()
-  }, [location.pathname, closeMenu])
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+    // Forzamos cierre del menú móvil SIEMPRE al navegar
+    if (isMenuOpen) closeMenu()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname])
 
-  // Bloquear scroll del body cuando el menú móvil está abierto
+  // ─── Bloquear scroll del body SOLO cuando el menú móvil está abierto ───
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    const body = document.body
+    if (isMenuOpen) {
+      // Guardamos el valor previo por si acaso
+      const prevOverflow = body.style.overflow
+      const prevPaddingRight = body.style.paddingRight
+      // Compensar el ancho del scrollbar para evitar "salto"
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+      body.style.overflow = 'hidden'
+      if (scrollbarWidth > 0) body.style.paddingRight = `${scrollbarWidth}px`
+      return () => {
+        body.style.overflow = prevOverflow
+        body.style.paddingRight = prevPaddingRight
+      }
+    }
   }, [isMenuOpen])
 
-  // Cerrar menú móvil si se pasa a desktop
+  // ─── Cleanup total al desmontar ───────────────────────────
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+      if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current)
+    }
+  }, [])
+
+  // ─── Cerrar menú móvil al pasar a desktop ─────────────────
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1024px)')
     const handler = (e: MediaQueryListEvent) => { if (e.matches) closeMenu() }
@@ -39,22 +68,37 @@ const Navbar = () => {
     return () => mq.removeEventListener('change', handler)
   }, [closeMenu])
 
-  // Cerrar con Escape
+  // ─── Escape para cerrar ───────────────────────────────────
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { setActiveDropdown(null); closeMenu() }
+      if (e.key === 'Escape') {
+        setActiveDropdown(null)
+        closeMenu()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [closeMenu])
 
-  // Manejo del dropdown con delay para evitar cierres bruscos
+  // ─── Dropdown hover con delay ─────────────────────────────
   const handleMouseEnter = (path: string) => {
     if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current)
     setActiveDropdown(path)
   }
   const handleMouseLeave = () => {
+    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current)
     dropdownTimeout.current = setTimeout(() => setActiveDropdown(null), 150)
+  }
+
+  // ─── Cierre INMEDIATO y SINCRÓNICO del menú móvil ─────────
+  // Esto es clave: cierra el menú ANTES de que el router navegue,
+  // así no queda nada "colgado" en el DOM.
+  const handleMobileLinkClick = () => {
+    setActiveDropdown(null)
+    // Forzamos el cierre del body inmediatamente
+    document.body.style.overflow = ''
+    document.body.style.paddingRight = ''
+    closeMenu()
   }
 
   const navLinks = [
@@ -102,7 +146,7 @@ const Navbar = () => {
             <Link
               to="/"
               className="flex items-center gap-3 group"
-              onClick={closeMenu}
+              onClick={handleMobileLinkClick}
               aria-label="Ir al inicio"
             >
               <motion.span
@@ -165,12 +209,12 @@ const Navbar = () => {
                             transition={{ duration: 0.18 }}
                             className="absolute top-full left-0 pt-2 w-56"
                           >
-                            {/* El padding-top actúa como "puente" para que no se cierre */}
                             <div className="bg-primary/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl shadow-black/30 py-2 overflow-hidden">
                               {link.submenu.map((sub) => (
                                 <Link
                                   key={sub.path}
                                   to={sub.path}
+                                  onClick={() => setActiveDropdown(null)}
                                   className={`block px-4 py-2.5 text-sm transition-all duration-200 ${
                                     isActive(sub.path)
                                       ? 'text-gold bg-gold/10'
@@ -233,6 +277,7 @@ const Navbar = () => {
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
+                key="mobile-menu"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
@@ -249,7 +294,7 @@ const Navbar = () => {
                     >
                       <Link
                         to={link.path}
-                        onClick={closeMenu}
+                        onClick={handleMobileLinkClick}
                         className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
                           isActive(link.path)
                             ? 'text-gold bg-gold/10'
@@ -267,6 +312,7 @@ const Navbar = () => {
                         href="https://wa.me/5493815544143"
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={handleMobileLinkClick}
                         className="flex items-center justify-center gap-2 bg-green-500/20 text-green-400 py-2 rounded-lg text-sm font-medium hover:bg-green-500/30 transition-colors"
                       >
                         <FaWhatsapp size={16} />
@@ -274,7 +320,7 @@ const Navbar = () => {
                       </a>
                       <Link
                         to="/contacto"
-                        onClick={closeMenu}
+                        onClick={handleMobileLinkClick}
                         className="flex items-center justify-center gap-2 bg-gold/10 text-gold py-2 rounded-lg text-sm font-medium hover:bg-gold/20 transition-colors"
                       >
                         <FaEnvelope size={14} />
@@ -289,7 +335,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Espaciador: usar la misma altura del navbar */}
+      {/* Espaciador */}
       <div className="h-20" aria-hidden="true" />
     </>
   )

@@ -14,23 +14,18 @@ const PublicLayout = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [location.pathname])
 
-  // Simular carga de página
+  // Loader SOLO en la primera carga (no en cada navegación)
   useEffect(() => {
-    setIsLoading(true)
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 800)
-
+    const timer = setTimeout(() => setIsLoading(false), 600)
     return () => clearTimeout(timer)
-  }, [location.pathname])
+  }, []) // ⬅️ sin dependencias → solo al montar
 
-  // Frases rotativas para el loader
   const loadingMessages = [
     'Dra. Sandra Delgadillo',
     'Estudio Jurídico Delgadillo',
     'Justicia con vocación',
     'Abogada en Tucumán',
-    '15 años de experiencia'
+    '15 años de experiencia',
   ]
 
   const [messageIndex, setMessageIndex] = useState(0)
@@ -46,7 +41,7 @@ const PublicLayout = () => {
 
   return (
     <div className="min-h-screen bg-primary relative">
-      {/* LOADER GLOBAL - Personalizado con Sandra Delgadillo */}
+      {/* LOADER - solo primera carga */}
       <AnimatePresence>
         {isLoading && (
           <motion.div
@@ -57,23 +52,14 @@ const PublicLayout = () => {
             className="fixed inset-0 z-[9999] flex items-center justify-center bg-primary"
           >
             <div className="flex flex-col items-center gap-6">
-              {/* Logo SD con animación */}
               <motion.div
-                animate={{ 
-                  scale: [1, 1.15, 1],
-                  rotate: [0, 5, -5, 0]
-                }}
-                transition={{ 
-                  duration: 1.5, 
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
+                animate={{ scale: [1, 1.15, 1], rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                 className="text-6xl font-serif font-bold text-gold"
               >
                 SD
               </motion.div>
 
-              {/* Subtexto de marca */}
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -82,22 +68,16 @@ const PublicLayout = () => {
               >
                 Delgadillo Abogada
               </motion.p>
-              
-              {/* Barra de carga */}
+
               <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ x: '-100%' }}
                   animate={{ x: '100%' }}
-                  transition={{ 
-                    duration: 1, 
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
+                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                   className="w-full h-full bg-gold rounded-full"
                 />
               </div>
-              
-              {/* Mensaje de carga rotativo - AHORA MUESTRA SANDRA DELGADILLO */}
+
               <motion.div
                 key={messageIndex}
                 initial={{ opacity: 0, y: 10 }}
@@ -121,48 +101,34 @@ const PublicLayout = () => {
         )}
       </AnimatePresence>
 
-      {/* Fondo con efecto de gradiente sutil */}
+      {/* Fondo decorativo */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gold/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gold/5 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Navbar */}
       <Navbar />
 
-      {/* Contenido principal con animaciones mejoradas */}
-      <AnimatePresence mode="wait">
-        <motion.main
-          key={location.pathname}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ 
-            duration: 0.4,
-            ease: "easeInOut"
-          }}
-          className="relative z-10"
-        >
-          <Outlet />
-        </motion.main>
-      </AnimatePresence>
+      {/* Contenido principal — SIN AnimatePresence */}
+      <motion.main
+        key={location.pathname}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeInOut' }}
+        className="relative z-10"
+      >
+        <Outlet />
+      </motion.main>
 
-      {/* Footer */}
       <Footer />
 
-      {/* WhatsApp Button con diseño mejorado */}
+      {/* WhatsApp Button */}
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ 
-          delay: 1.5,
-          type: "spring",
-          stiffness: 260,
-          damping: 20
-        }}
+        transition={{ delay: 1.5, type: 'spring', stiffness: 260, damping: 20 }}
         className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2"
       >
-        {/* Tooltip flotante */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -175,22 +141,15 @@ const PublicLayout = () => {
           </span>
         </motion.div>
 
-        {/* Botón WhatsApp */}
         <motion.a
           href="https://wa.me/5493815544143?text=Hola%20Dra.%20Sandra%2C%20necesito%20asesor%C3%ADa%20legal"
           target="_blank"
           rel="noopener noreferrer"
-          whileHover={{ 
-            scale: 1.1,
-            boxShadow: "0 0 30px rgba(37, 211, 102, 0.3)"
-          }}
+          whileHover={{ scale: 1.1, boxShadow: '0 0 30px rgba(37, 211, 102, 0.3)' }}
           whileTap={{ scale: 0.95 }}
           className="relative group"
         >
-          {/* Efecto de pulso */}
           <span className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20"></span>
-          
-          {/* Botón principal */}
           <div className="relative bg-gradient-to-br from-green-500 to-green-600 text-white p-4 rounded-full shadow-2xl shadow-green-500/20 hover:shadow-green-500/40 transition-all duration-300 flex items-center gap-2">
             <FaWhatsapp size={28} />
             <span className="hidden sm:inline text-sm font-medium pr-1">
@@ -199,17 +158,6 @@ const PublicLayout = () => {
           </div>
         </motion.a>
       </motion.div>
-
-      {/* Barra de progreso de scroll */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-0.5 bg-gold z-50 origin-left"
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 0.5 }}
-        style={{
-          transformOrigin: '0%',
-        }}
-      />
     </div>
   )
 }
