@@ -1,33 +1,66 @@
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigation } from '../../context/NavigationContext'
-import { 
-  FaBars, 
-  FaTimes, 
-  FaWhatsapp,
-  FaEnvelope
-} from 'react-icons/fa'
-import { useState, useEffect } from 'react'
+import { FaBars, FaTimes, FaWhatsapp, FaEnvelope } from 'react-icons/fa'
+import { useState, useEffect, useRef } from 'react'
 
 const Navbar = () => {
   const { isMenuOpen, toggleMenu, closeMenu } = useNavigation()
   const location = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Detectar scroll para cambiar el estilo del navbar
+  // Scroll
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll)
+    const handleScroll = () => setIsScrolled(window.scrollY > 50)
+    handleScroll() // ejecutar al montar
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Cerrar dropdown y menú móvil al cambiar de ruta
+  useEffect(() => {
+    setActiveDropdown(null)
+    closeMenu()
+  }, [location.pathname, closeMenu])
+
+  // Bloquear scroll del body cuando el menú móvil está abierto
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [isMenuOpen])
+
+  // Cerrar menú móvil si se pasa a desktop
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const handler = (e: MediaQueryListEvent) => { if (e.matches) closeMenu() }
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [closeMenu])
+
+  // Cerrar con Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { setActiveDropdown(null); closeMenu() }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [closeMenu])
+
+  // Manejo del dropdown con delay para evitar cierres bruscos
+  const handleMouseEnter = (path: string) => {
+    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current)
+    setActiveDropdown(path)
+  }
+  const handleMouseLeave = () => {
+    dropdownTimeout.current = setTimeout(() => setActiveDropdown(null), 150)
+  }
+
   const navLinks = [
     { path: '/', label: 'Inicio' },
-    { 
-      path: '/servicios', 
+    {
+      path: '/servicios',
       label: 'Servicios',
       submenu: [
         { path: '/cobranzas', label: 'Cobranzas' },
@@ -35,15 +68,11 @@ const Navbar = () => {
         { path: '/divorcios', label: 'Divorcios' },
         { path: '/familia', label: 'Derecho de Familia' },
         { path: '/sucesiones', label: 'Sucesiones' },
-      ]
+      ],
     },
     { path: '/contacto', label: 'Contacto' },
   ]
 
-  const isActive = (path: string) => location.pathname === path
-  const isActiveSubmenu = (path: string) => location.pathname === path
-
-  // Versión simplificada para mobile (sin submenús)
   const mobileNavLinks = [
     { path: '/', label: 'Inicio' },
     { path: '/cobranzas', label: 'Cobranzas' },
@@ -54,105 +83,109 @@ const Navbar = () => {
     { path: '/contacto', label: 'Contacto' },
   ]
 
+  const isActive = (path: string) => location.pathname === path
+  const isServicesActive = () =>
+    navLinks[1].submenu?.some((s) => s.path === location.pathname)
+
   return (
     <>
-      <nav 
+      <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-primary/95 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/10' 
+          isScrolled
+            ? 'bg-primary/95 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/10'
             : 'bg-primary/80 backdrop-blur-sm border-b border-white/5'
         }`}
       >
         <div className="container-custom">
           <div className="flex justify-between items-center h-20">
-            {/* Logo - Versión mejorada */}
-            <Link 
-              to="/" 
-              className="flex items-center space-x-3 group"
+            {/* Logo */}
+            <Link
+              to="/"
+              className="flex items-center gap-3 group"
               onClick={closeMenu}
+              aria-label="Ir al inicio"
             >
-              <motion.div
+              <motion.span
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative"
+                className="text-2xl md:text-3xl font-serif font-bold text-gold"
               >
-                <span className="text-2xl md:text-3xl font-serif font-bold text-gold">
-                  Delgadillo
+                Delgadillo
+              </motion.span>
+              <span className="hidden sm:flex flex-col leading-tight">
+                <span className="text-white font-serif text-base font-semibold">
+                  Estudio Jurídico
                 </span>
-                {/* Anillo decorativo */}
-                <span className="absolute -inset-1 border border-gold/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              </motion.div>
-              <div className="hidden sm:block">
-                <span className="text-white font-serif text-lg font-semibold leading-tight">
-                  Delgadillo
-                </span>
-                <span className="block text-[10px] text-gold/70 font-medium tracking-wider uppercase">
+                <span className="text-[10px] text-gold/70 font-medium tracking-wider uppercase">
                   Abogada
                 </span>
-              </div>
+              </span>
             </Link>
 
-            {/* Desktop Menu - Mejorado */}
+            {/* Desktop Menu */}
             <div className="hidden lg:flex items-center space-x-1">
               {navLinks.map((link) => (
-                <div 
+                <div
                   key={link.path}
-                  className="relative group"
-                  onMouseEnter={() => setActiveDropdown(link.path)}
-                  onMouseLeave={() => setActiveDropdown(null)}
+                  className="relative"
+                  onMouseEnter={() => link.submenu && handleMouseEnter(link.path)}
+                  onMouseLeave={handleMouseLeave}
                 >
                   {link.submenu ? (
-                    // Link con submenú
                     <>
                       <button
+                        type="button"
+                        aria-haspopup="true"
+                        aria-expanded={activeDropdown === link.path}
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-1 ${
-                          isActive(link.path)
+                          isActive(link.path) || isServicesActive()
                             ? 'text-gold bg-gold/10'
                             : 'text-gray-300 hover:text-white hover:bg-white/5'
                         }`}
                       >
                         {link.label}
-                        <svg 
+                        <svg
                           className={`w-3 h-3 transition-transform duration-300 ${
                             activeDropdown === link.path ? 'rotate-180' : ''
                           }`}
-                          fill="none" 
-                          stroke="currentColor" 
+                          fill="none"
+                          stroke="currentColor"
                           viewBox="0 0 24 24"
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
-                      
-                      {/* Submenú */}
+
                       <AnimatePresence>
                         {activeDropdown === link.path && (
                           <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            initial={{ opacity: 0, y: 8, scale: 0.97 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            transition={{ duration: 0.2 }}
-                            className="absolute top-full left-0 mt-1 w-56 bg-primary/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl shadow-black/30 py-2"
+                            exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                            transition={{ duration: 0.18 }}
+                            className="absolute top-full left-0 pt-2 w-56"
                           >
-                            {link.submenu.map((sub) => (
-                              <Link
-                                key={sub.path}
-                                to={sub.path}
-                                className={`block px-4 py-2.5 text-sm transition-all duration-300 ${
-                                  isActiveSubmenu(sub.path)
-                                    ? 'text-gold bg-gold/10'
-                                    : 'text-gray-300 hover:text-white hover:bg-white/5'
-                                }`}
-                              >
-                                {sub.label}
-                              </Link>
-                            ))}
+                            {/* El padding-top actúa como "puente" para que no se cierre */}
+                            <div className="bg-primary/95 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl shadow-black/30 py-2 overflow-hidden">
+                              {link.submenu.map((sub) => (
+                                <Link
+                                  key={sub.path}
+                                  to={sub.path}
+                                  className={`block px-4 py-2.5 text-sm transition-all duration-200 ${
+                                    isActive(sub.path)
+                                      ? 'text-gold bg-gold/10'
+                                      : 'text-gray-300 hover:text-white hover:bg-white/5'
+                                  }`}
+                                >
+                                  {sub.label}
+                                </Link>
+                              ))}
+                            </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
                     </>
                   ) : (
-                    // Link normal
                     <Link
                       to={link.path}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
@@ -167,7 +200,6 @@ const Navbar = () => {
                 </div>
               ))}
 
-              {/* Botón de contacto rápido */}
               <motion.a
                 href="https://wa.me/5493815544143"
                 target="_blank"
@@ -181,30 +213,30 @@ const Navbar = () => {
               </motion.a>
             </div>
 
-            {/* Mobile Menu Button - Mejorado */}
+            {/* Mobile Menu Button */}
             <motion.button
               onClick={toggleMenu}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="lg:hidden text-white text-2xl p-2 hover:bg-white/5 rounded-lg transition-colors relative"
-              aria-label="Toggle menu"
+              aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={isMenuOpen}
             >
               {isMenuOpen ? <FaTimes /> : <FaBars />}
-              {/* Indicador de menú abierto */}
               {isMenuOpen && (
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-gold rounded-full"></span>
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-gold rounded-full" />
               )}
             </motion.button>
           </div>
 
-          {/* Mobile Menu - Mejorado con animaciones */}
+          {/* Mobile Menu */}
           <AnimatePresence>
             {isMenuOpen && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.25 }}
                 className="lg:hidden overflow-hidden"
               >
                 <div className="py-4 space-y-1 border-t border-white/10">
@@ -213,7 +245,7 @@ const Navbar = () => {
                       key={link.path}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
+                      transition={{ delay: index * 0.04 }}
                     >
                       <Link
                         to={link.path}
@@ -228,8 +260,7 @@ const Navbar = () => {
                       </Link>
                     </motion.div>
                   ))}
-                  
-                  {/* Contacto rápido en mobile */}
+
                   <div className="pt-4 mt-4 border-t border-white/10">
                     <div className="grid grid-cols-2 gap-2 px-4">
                       <a
@@ -258,8 +289,8 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Espaciador para compensar el navbar fijo */}
-      <div className="h-20"></div>
+      {/* Espaciador: usar la misma altura del navbar */}
+      <div className="h-20" aria-hidden="true" />
     </>
   )
 }
