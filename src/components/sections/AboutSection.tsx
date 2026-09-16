@@ -172,43 +172,6 @@ const AboutSection = () => {
           ))}
         </motion.div>
 
-        {/* Reconocimiento - Medalla Bodas de Plata */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-r from-gold/10 via-gold/5 to-transparent p-8 rounded-2xl border border-gold/20 mb-8"
-        >
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="flex-shrink-0">
-              <motion.div
-                animate={{ 
-                  scale: [1, 1.1, 1],
-                  rotate: [0, 5, -5, 0]
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-                className="w-20 h-20 rounded-full bg-gold/20 flex items-center justify-center"
-              >
-                <FaMedal className="text-gold text-4xl" />
-              </motion.div>
-            </div>
-            <div className="text-center md:text-left">
-              <span className="text-gold text-xs font-medium uppercase tracking-[0.2em]">
-                RECONOCIMIENTO PROFESIONAL
-              </span>
-              <h3 className="text-white font-serif text-2xl mt-1 mb-2">
-                Medalla Bodas de Plata
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Distinción otorgada por el <span className="text-gold font-medium">Colegio de Abogados de Tucumán</span> en 
-                el año <span className="text-gold font-medium">2020</span>, al cumplir 
-                <span className="text-gold font-medium"> 25 años de ejercicio profesional</span> con 
-                dedicación, ética y compromiso con la justicia.
-              </p>
-            </div>
-          </div>
-        </motion.div>
 
         {/* CTA y Frase */}
         <motion.div
