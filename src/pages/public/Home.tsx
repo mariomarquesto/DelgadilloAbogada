@@ -1,11 +1,12 @@
 // pages/public/Home.tsx
 import Hero from '../../components/sections/Hero'
+import RecognitionSection from '../../components/sections/RecognitionSection' // 👈 NUEVO
+import TechnologySecuritySection from '../../components/sections/TechnologySecuritySection'
 import AboutSection from '../../components/sections/AboutSection'
 import PracticeCards from '../../components/sections/PracticeCards'
 import WhyChooseUs from '../../components/sections/WhyChooseUs'
 import Testimonials from '../../components/sections/Testimonials'
 import FAQ from '../../components/sections/FAQ'
-import TechnologySecuritySection from '../../components/sections/TechnologySecuritySection'
 import { motion } from 'framer-motion'
 
 const Home = () => {
@@ -16,7 +17,8 @@ const Home = () => {
       exit={{ opacity: 0 }}
     >
       <Hero />
-      <TechnologySecuritySection /> {/* 👈 Nueva sección */}
+      <RecognitionSection /> {/* 🏅 MEDALLA DE PLATA PROTAGONISTA */}
+      <TechnologySecuritySection />
       <AboutSection />
       <PracticeCards />
       <WhyChooseUs />
