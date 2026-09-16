@@ -25,7 +25,7 @@ const PublicLayout = () => {
     'Estudio Jurídico Delgadillo',
     'Justicia con vocación',
     'Abogada en Tucumán',
-    '15 años de experiencia',
+    '31 años de experiencia',
   ]
 
   const [messageIndex, setMessageIndex] = useState(0)

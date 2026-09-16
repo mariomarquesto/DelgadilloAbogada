@@ -14,7 +14,8 @@ import {
   FaStar,
   FaCheckCircle,
   FaAward,
-  FaUsers
+  FaUsers,
+  FaMedal // 👈 NUEVO
 } from 'react-icons/fa'
 import { MdVerified, MdSecurity } from 'react-icons/md'
 import { useState, useEffect, Suspense } from 'react'
@@ -24,7 +25,7 @@ const Hero = () => {
   const textLines = [
     'Sandra Delgadillo',
     'Abogada con vocación',
-    '15 años de experiencia'
+    '31 años de experiencia'
   ]
   const [displayText, setDisplayText] = useState('')
   const [lineIndex, setLineIndex] = useState(0)
@@ -57,25 +58,26 @@ const Hero = () => {
 
   // Estadísticas de confianza
   const stats = [
-    { value: '15+', label: 'Años de Experiencia', icon: FaAward, delay: 1.2 },
+    { value: '31+', label: 'Años de Experiencia', icon: FaAward, delay: 1.2 },
     { value: '98%', label: 'Casos Exitosos', icon: FaStar, delay: 1.3 },
     { value: '500+', label: 'Clientes Atendidos', icon: FaUsers, delay: 1.4 },
     { value: '24/7', label: 'Disponibilidad', icon: FaClock, delay: 1.5 }
   ]
 
-  // Badges de confianza
+  // Badges de confianza CON MEDALLA
   const trustBadges = [
     { icon: MdVerified, text: 'Matriculada en Tucumán', color: 'from-blue-500/20 to-cyan-500/20' },
-    { icon: MdSecurity, text: 'Confidencialidad Garantizada', color: 'from-green-500/20 to-emerald-500/20' },
-    { icon: FaCheckCircle, text: 'Atención Personalizada', color: 'from-purple-500/20 to-pink-500/20' }
+    { icon: FaMedal, text: 'Medalla Bodas de Plata 2020', color: 'from-gold/30 to-yellow-500/20' }, // 👈 NUEVO
+    { icon: FaCheckCircle, text: '31+ años de trayectoria', color: 'from-purple-500/20 to-pink-500/20' },
+    { icon: MdSecurity, text: 'Confidencialidad Garantizada', color: 'from-green-500/20 to-emerald-500/20' }
   ]
 
-  // Palabras clave con animación de flotación
+  // Palabras clave
   const keywords = ['Confianza', 'Experiencia', 'Compromiso', 'Resultados']
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background con overlay mejorado */}
+      {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
         style={{
@@ -87,10 +89,10 @@ const Hero = () => {
         <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gold/30 via-transparent to-transparent"></div>
       </div>
 
-      {/* Partículas 3D */}
+      {/* Partículas */}
       {typeof window !== 'undefined' && <ParticlesBackground />}
 
-      {/* Elementos decorativos flotantes */}
+      {/* Elementos decorativos */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div
           animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
@@ -111,20 +113,20 @@ const Hero = () => {
           transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           className="absolute top-1/3 right-10 text-gold/10 text-5xl"
         >
-          ✨
+          🏅
         </motion.div>
       </div>
 
       <div className="relative container-custom py-16 md:py-28 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Columna Izquierda - Contenido DINÁMICO */}
+          {/* Columna Izquierda */}
           <motion.div
             initial={{ opacity: 0, x: -60 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="space-y-6"
           >
-            {/* Badge Superior CON ANIMACIÓN */}
+            {/* Badge Superior */}
             <motion.div
               initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -147,7 +149,7 @@ const Hero = () => {
               </motion.span>
             </motion.div>
 
-            {/* Título Principal CON ESCRITURA ANIMADA */}
+            {/* Título */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -173,35 +175,17 @@ const Hero = () => {
                     animate={{ y: [-5, 5, -5], rotate: [0, 10, 0] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
-                    ⚖️
+                    🏅
                   </motion.span>
                 </span>
                 <span className="block text-3xl md:text-4xl lg:text-5xl text-gray-200 font-light mt-2">
-                  <motion.span
-                    className="inline-block text-gold font-semibold"
-                    animate={{ 
-                      scale: [1, 1.02, 1],
-                      opacity: [1, 0.8, 1]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    ❝
-                  </motion.span>
+                  <span className="text-gold font-semibold">❝</span>
                   <span className="text-gold font-semibold">Derecho con vocación</span>
-                  <motion.span
-                    className="inline-block text-gold font-semibold"
-                    animate={{ 
-                      scale: [1, 1.02, 1],
-                      opacity: [1, 0.8, 1]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                  >
-                    ❞
-                  </motion.span>
+                  <span className="text-gold font-semibold">❞</span>
                 </span>
               </h1>
 
-              {/* Subtítulo con efecto de escritura */}
+              {/* Subtítulo */}
               <motion.div 
                 className="h-12 md:h-14"
                 initial={{ opacity: 0 }}
@@ -215,12 +199,11 @@ const Hero = () => {
                       {displayText}
                     </span>
                   </span>
-                  <span className="text-gold/50 text-sm hidden md:inline">|</span>
                 </p>
               </motion.div>
             </motion.div>
 
-            {/* Palabras clave flotantes */}
+            {/* Palabras clave */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -230,15 +213,8 @@ const Hero = () => {
               {keywords.map((word, index) => (
                 <motion.span
                   key={index}
-                  animate={{
-                    y: [0, -5, 0],
-                    opacity: [1, 0.7, 1]
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    delay: index * 0.3
-                  }}
+                  animate={{ y: [0, -5, 0], opacity: [1, 0.7, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: index * 0.3 }}
                   className="text-xs font-medium px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gray-400"
                 >
                   {word}
@@ -246,7 +222,7 @@ const Hero = () => {
               ))}
             </motion.div>
 
-            {/* Descripción Detallada */}
+            {/* Descripción */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -254,15 +230,13 @@ const Hero = () => {
               className="space-y-3"
             >
               <p className="text-base text-gray-400 leading-relaxed max-w-xl">
-                <span className="text-gold font-semibold">📍</span> Estudio jurídico en Tucumán. Especialistas en brindar soluciones 
-                legales efectivas con un enfoque humano y estratégico.
+                <span className="text-gold font-semibold">📍</span> Estudio jurídico en Tucumán. 
+                Especialistas en brindar soluciones legales efectivas con un enfoque humano y estratégico.
               </p>
               
-              {/* Dirección destacada CON ANIMACIÓN */}
               <motion.div 
                 className="inline-flex items-center gap-2 bg-white/5 px-4 py-2.5 rounded-lg border border-white/10 hover:border-gold/30 transition-colors"
                 whileHover={{ x: 5, scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 400 }}
               >
                 <FaMapMarkerAlt className="text-gold" />
                 <span className="text-gray-300 text-sm font-medium">
@@ -271,7 +245,7 @@ const Hero = () => {
               </motion.div>
             </motion.div>
 
-            {/* Trust Badges CON ANIMACIÓN */}
+            {/* Trust Badges CON MEDALLA */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -293,62 +267,31 @@ const Hero = () => {
               ))}
             </motion.div>
 
-            {/* 🔥 Botones CTA - CON MÁS MOVIMIENTO */}
+            {/* Botones CTA */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
               className="flex flex-col sm:flex-row gap-4 pt-4"
             >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full sm:w-auto"
-              >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link to="/contacto">
-                  <Button 
-                    variant="primary" 
-                    size="lg" 
-                    className="w-full sm:w-auto group relative overflow-hidden shadow-xl shadow-gold/20"
-                  >
+                  <Button variant="primary" size="lg" className="w-full sm:w-auto group relative overflow-hidden shadow-xl shadow-gold/20">
                     <span className="relative z-10 flex items-center gap-2 text-base font-semibold">
-                      <motion.span
-                        animate={{ rotate: [0, -5, 5, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      >
-                        <FaWhatsapp className="text-xl" />
-                      </motion.span>
+                      <FaWhatsapp className="text-xl" />
                       Solicitar asesoría ahora
-                      <motion.span
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ duration: 1, repeat: Infinity }}
-                      >
-                        <FaArrowRight />
-                      </motion.span>
+                      <FaArrowRight />
                     </span>
                     <span className="absolute inset-0 bg-gradient-to-r from-gold/0 via-white/20 to-gold/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></span>
                   </Button>
                 </Link>
               </motion.div>
               
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full sm:w-auto"
-              >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                 <Link to="/cobranzas">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-gold/50 transition-all duration-300 group"
-                  >
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto border-2 border-white/30 text-white hover:bg-white/10 hover:border-gold/50 transition-all duration-300 group">
                     <span className="flex items-center gap-2">
-                      <motion.span
-                        animate={{ rotate: [-5, 5, -5] }}
-                        transition={{ duration: 3, repeat: Infinity }}
-                      >
-                        <FaGavel />
-                      </motion.span>
+                      <FaGavel />
                       Ver áreas de práctica
                     </span>
                   </Button>
@@ -356,7 +299,7 @@ const Hero = () => {
               </motion.div>
             </motion.div>
 
-            {/* Contacto rápido CON MOVIMIENTO */}
+            {/* Contacto rápido */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -364,9 +307,9 @@ const Hero = () => {
               className="flex flex-wrap items-center gap-6 pt-6 border-t border-white/10"
             >
               {[
-                { icon: FaPhone, text: '+54 9 381 554-4143', delay: 0 },
-                { icon: FaClock, text: 'Lun a Vie 9-18hs', delay: 0.1 },
-                { icon: FaGavel, text: 'Civil · Laboral · Sucesiones', delay: 0.2 }
+                { icon: FaPhone, text: '+54 9 381 554-4143' },
+                { icon: FaClock, text: 'Lun a Vie 9-18hs' },
+                { icon: FaGavel, text: 'Civil · Laboral · Sucesiones' }
               ].map((item, index) => (
                 <motion.div
                   key={index}
@@ -383,27 +326,19 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Columna Derecha - 3D Scene con estadísticas */}
+          {/* Columna Derecha - 3D Scene */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="relative"
           >
-            {/* Contenedor 3D CON SUSPENSE - CORREGIDO */}
             <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full">
               {typeof window !== 'undefined' && (
                 <Suspense fallback={
                   <div className="flex items-center justify-center w-full h-full">
                     <div className="flex flex-col items-center gap-3">
-                      {/* Spinner elegante */}
-                      <div className="relative">
-                        <div className="w-12 h-12 border-3 border-gold/20 border-t-gold rounded-full animate-spin"></div>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-6 h-6 border-3 border-gold/10 border-b-gold rounded-full animate-spin animation-delay-150"></div>
-                        </div>
-                      </div>
-                      {/* Texto sin "Cargando" - solo el nombre */}
+                      <div className="w-12 h-12 border-3 border-gold/20 border-t-gold rounded-full animate-spin"></div>
                       <p className="text-gold/50 text-xs font-light tracking-wider">
                         Dra. Sandra Delgadillo
                       </p>
@@ -415,54 +350,25 @@ const Hero = () => {
               )}
             </div>
 
-            {/* Estadísticas flotantes CON ANIMACIÓN INDIVIDUAL */}
+            {/* Estadísticas */}
             <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
               {stats.map((stat, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.8, y: 20 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ 
-                    delay: stat.delay,
-                    type: "spring",
-                    stiffness: 200,
-                    damping: 15
-                  }}
-                  whileHover={{ 
-                    scale: 1.05, 
-                    y: -5,
-                    boxShadow: "0 10px 30px rgba(201,169,110,0.2)"
-                  }}
+                  transition={{ delay: stat.delay, type: "spring", stiffness: 200, damping: 15 }}
+                  whileHover={{ scale: 1.05, y: -5 }}
                   className="bg-white/5 backdrop-blur-sm p-3 rounded-xl border border-white/10 text-center hover:border-gold/30 transition-all group"
                 >
                   <motion.div
-                    animate={{ 
-                      scale: [1, 1.1, 1],
-                      rotate: [0, 5, -5, 0]
-                    }}
-                    transition={{ 
-                      duration: 3, 
-                      repeat: Infinity,
-                      delay: index * 0.3
-                    }}
+                    animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: index * 0.3 }}
                     className="text-gold text-lg mx-auto mb-1"
                   >
                     <stat.icon />
                   </motion.div>
-                  <motion.div 
-                    className="text-lg md:text-xl font-bold text-gold"
-                    animate={{ 
-                      scale: [1, 1.05, 1],
-                      opacity: [1, 0.8, 1]
-                    }}
-                    transition={{ 
-                      duration: 2, 
-                      repeat: Infinity,
-                      delay: index * 0.2
-                    }}
-                  >
-                    {stat.value}
-                  </motion.div>
+                  <div className="text-lg md:text-xl font-bold text-gold">{stat.value}</div>
                   <div className="text-gray-400 text-[10px] uppercase tracking-wider">{stat.label}</div>
                 </motion.div>
               ))}
@@ -471,15 +377,11 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator CON MOVIMIENTO */}
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ 
-          delay: 1.5,
-          repeat: Infinity,
-          duration: 2
-        }}
+        transition={{ delay: 1.5, repeat: Infinity, duration: 2 }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block"
       >
         <div className="flex flex-col items-center gap-2 text-gray-500">

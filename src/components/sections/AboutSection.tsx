@@ -9,7 +9,8 @@ import {
   FaGavel,
   FaStar,
   FaQuoteLeft,
-  FaQuoteRight
+  FaQuoteRight,
+  FaMedal // 👈 NUEVO
 } from 'react-icons/fa'
 import { MdVerified, MdSecurity, MdFamilyRestroom } from 'react-icons/md'
 import { Link } from 'react-router-dom'
@@ -17,7 +18,7 @@ import Button from '../ui/Button'
 
 const AboutSection = () => {
   const stats = [
-    { value: '15+', label: 'Años de Experiencia', icon: FaAward },
+    { value: '31+', label: 'Años de Experiencia', icon: FaAward },
     { value: '500+', label: 'Casos Exitosos', icon: FaGavel },
     { value: '98%', label: 'Clientes Satisfechos', icon: FaStar },
     { value: '24/7', label: 'Disponibilidad', icon: FaClock }
@@ -37,7 +38,7 @@ const AboutSection = () => {
     {
       icon: FaBalanceScale,
       title: 'Experiencia',
-      description: 'Más de 15 años de trayectoria en derecho civil, laboral y sucesiones.'
+      description: 'Más de 31 años de trayectoria en derecho civil, laboral y sucesiones.'
     }
   ]
 
@@ -83,8 +84,8 @@ const AboutSection = () => {
             <span className="text-gold">Sandra Delgadillo</span>
           </h2>
           <p className="text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto">
-            Abogada con más de 15 años de experiencia, comprometida con brindar 
-            un servicio legal de excelencia en Tucumán y la región.
+            Abogada con más de <span className="text-gold font-semibold">31 años de experiencia</span>, 
+            comprometida con brindar un servicio legal de excelencia en Tucumán y la región.
           </p>
           
           {/* Badges de confianza */}
@@ -93,10 +94,13 @@ const AboutSection = () => {
               <MdVerified className="text-gold" /> Matriculada
             </span>
             <span className="flex items-center gap-2 text-xs bg-white/5 text-gray-300 px-3 py-1 rounded-full border border-white/10">
-              <FaGavel className="text-gold" /> 15+ años
+              <FaGavel className="text-gold" /> 31+ años
             </span>
             <span className="flex items-center gap-2 text-xs bg-white/5 text-gray-300 px-3 py-1 rounded-full border border-white/10">
               <FaUsers className="text-gold" /> 500+ casos
+            </span>
+            <span className="flex items-center gap-2 text-xs bg-gradient-to-r from-gold/20 to-yellow-500/10 text-gold px-3 py-1 rounded-full border border-gold/30">
+              <FaMedal className="text-gold" /> Medalla Bodas de Plata 2020
             </span>
           </div>
         </motion.div>
@@ -168,11 +172,49 @@ const AboutSection = () => {
           ))}
         </motion.div>
 
-        {/* CTA y Frase */}
+        {/* Reconocimiento - Medalla Bodas de Plata */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
+          viewport={{ once: true }}
+          className="bg-gradient-to-r from-gold/10 via-gold/5 to-transparent p-8 rounded-2xl border border-gold/20 mb-8"
+        >
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="flex-shrink-0">
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 5, -5, 0]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="w-20 h-20 rounded-full bg-gold/20 flex items-center justify-center"
+              >
+                <FaMedal className="text-gold text-4xl" />
+              </motion.div>
+            </div>
+            <div className="text-center md:text-left">
+              <span className="text-gold text-xs font-medium uppercase tracking-[0.2em]">
+                RECONOCIMIENTO PROFESIONAL
+              </span>
+              <h3 className="text-white font-serif text-2xl mt-1 mb-2">
+                Medalla Bodas de Plata
+              </h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Distinción otorgada por el <span className="text-gold font-medium">Colegio de Abogados de Tucumán</span> en 
+                el año <span className="text-gold font-medium">2020</span>, al cumplir 
+                <span className="text-gold font-medium"> 25 años de ejercicio profesional</span> con 
+                dedicación, ética y compromiso con la justicia.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* CTA y Frase */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
           viewport={{ once: true }}
           className="text-center bg-gradient-to-r from-gold/10 to-transparent p-8 rounded-2xl border border-gold/20"
         >
