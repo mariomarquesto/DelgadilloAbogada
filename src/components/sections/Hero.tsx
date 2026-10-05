@@ -308,7 +308,7 @@ const Hero = () => {
             >
               {[
                 { icon: FaPhone, text: '+54 9 381 554-4143' },
-                { icon: FaClock, text: 'Lun a Vie 9-18hs' },
+                { icon: FaClock, text: 'Lun, Martes y Jueves 18 a 20hs' },
                 { icon: FaGavel, text: 'Civil · Laboral · Sucesiones' }
               ].map((item, index) => (
                 <motion.div

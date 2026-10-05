@@ -54,8 +54,8 @@ const Contacto = () => {
     {
       icon: FaEnvelope,
       title: 'Email',
-      content: 'sandra@delgadilloabogada.com',
-      link: 'mailto:sandra@delgadilloabogada.com'
+      content: 'sandradelga68@gmail.com',
+      link: 'mailto:sandradelga68@gmail.com'
     },
     {
       icon: FaMapMarkerAlt,
@@ -254,16 +254,8 @@ const Contacto = () => {
               </h4>
               <div className="space-y-1 text-sm">
                 <div className="flex justify-between text-gray-300">
-                  <span>Lunes - Viernes</span>
-                  <span className="text-gold">9:00 - 18:00</span>
-                </div>
-                <div className="flex justify-between text-gray-300">
-                  <span>Sábados</span>
-                  <span className="text-gold">10:00 - 13:00</span>
-                </div>
-                <div className="flex justify-between text-gray-300">
-                  <span>Domingos</span>
-                  <span className="text-gray-500">Cerrado</span>
+                  <span>Lunes, Martes y Jueves</span>
+                  <span className="text-gold">18:00 - 20:00</span>
                 </div>
               </div>
             </motion.div>
