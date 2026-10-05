@@ -6,7 +6,7 @@ import { MdVerified } from 'react-icons/md'
 const RecognitionSection = () => {
   return (
     <section className="py-24 bg-gradient-to-b from-primary via-primary/98 to-primary relative overflow-hidden">
-      {/* Fondo decorativo premium */}
+      {/* Fondo decorativo original en dorado */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold/5 rounded-full blur-3xl"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-gold/10 rounded-full blur-3xl"></div>
@@ -28,37 +28,41 @@ const RecognitionSection = () => {
             </span>
           </div>
 
-          {/* Medalla gigante animada */}
+          {/* Medalla gigante en plateado ultra fashion y brillante */}
           <div className="flex justify-center mb-8">
             <motion.div
               animate={{ 
                 scale: [1, 1.08, 1],
                 rotate: [0, 5, -5, 0],
                 boxShadow: [
-                  '0 0 30px rgba(201,169,110,0.2)',
-                  '0 0 60px rgba(201,169,110,0.4)',
-                  '0 0 30px rgba(201,169,110,0.2)'
+                  '0 0 35px rgba(241,245,249,0.3)',
+                  '0 0 70px rgba(241,245,249,0.6)',
+                  '0 0 35px rgba(241,245,249,0.3)'
                 ]
               }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-gold/40 via-gold/20 to-gold/5 border-4 border-gold/50 flex items-center justify-center"
+              className="relative w-36 h-36 md:w-44 md:h-44 rounded-full bg-gradient-to-tr from-slate-200 via-white to-slate-400 border-[6px] border-white/90 flex items-center justify-center shadow-[0_0_50px_rgba(255,255,255,0.4)]"
             >
-              <FaMedal className="text-gold text-6xl md:text-7xl" />
-              {/* Anillos decorativos */}
+              {/* Reflejo interno de brillo */}
+              <div className="absolute inset-1 rounded-full bg-gradient-to-b from-white/60 to-transparent pointer-events-none"></div>
+              
+              <FaMedal className="text-slate-900 text-6xl md:text-7xl drop-shadow-[0_4px_6px_rgba(0,0,0,0.3)] z-10" />
+              
+              {/* Anillos decorativos plateados brillantes */}
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-4 border-2 border-dashed border-gold/20 rounded-full"
+                className="absolute -inset-5 border-2 border-dashed border-slate-200/50 rounded-full"
               />
               <motion.div
                 animate={{ rotate: -360 }}
                 transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-8 border border-gold/10 rounded-full"
+                className="absolute -inset-10 border border-slate-200/25 rounded-full"
               />
             </motion.div>
           </div>
 
-          {/* Título principal */}
+          {/* Título principal con la palabra "Plata" en plateado fashion */}
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -66,7 +70,10 @@ const RecognitionSection = () => {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-center text-white mb-6"
           >
-            <span className="text-gold">Medalla Bodas de Plata</span>
+            <span className="text-gold">Medalla Bodas de </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 via-white to-slate-400 drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]">
+              Plata
+            </span>
           </motion.h2>
 
           {/* Subtítulo */}

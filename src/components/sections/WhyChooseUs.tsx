@@ -10,7 +10,8 @@ const WhyChooseUs = () => {
       description: 'Trayectoria comprobada en derecho civil, laboral y sucesiones.'
     },
     {
-      icon: FaMedal, // 👈 NUEVO
+      icon: FaMedal,
+      isSilver: true, // 👈 Identificador para que solo esta tarjeta use plata
       title: 'Medalla Bodas de Plata',
       description: 'Reconocimiento del Colegio de Abogados de Tucumán en 2020 por 25 años de ejercicio.'
     },
@@ -62,8 +63,16 @@ const WhyChooseUs = () => {
               viewport={{ once: true }}
               className="text-center group"
             >
-              <div className="bg-gradient-to-br from-gold/10 to-transparent w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <reason.icon className="text-gold text-3xl" />
+              <div 
+                className={`w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform bg-gradient-to-br ${
+                  reason.isSilver 
+                    ? 'from-slate-300/20 to-slate-500/5 border border-slate-300/30' 
+                    : 'from-gold/10 to-transparent'
+                }`}
+              >
+                <reason.icon 
+                  className={`text-3xl ${reason.isSilver ? 'text-slate-300' : 'text-gold'}`} 
+                />
               </div>
               <h3 className="text-white font-semibold text-base mb-2">{reason.title}</h3>
               <p className="text-gray-400 text-xs leading-relaxed">{reason.description}</p>
@@ -71,7 +80,7 @@ const WhyChooseUs = () => {
           ))}
         </div>
 
-        {/* 🏅 Badge de Medalla destacado */}
+        {/* 🏅 Badge de Medalla de Plata destacado */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -79,9 +88,9 @@ const WhyChooseUs = () => {
           viewport={{ once: true }}
           className="mt-12 text-center"
         >
-          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-gold/10 to-yellow-500/5 px-6 py-3 rounded-full border border-gold/30">
-            <FaMedal className="text-gold text-xl" />
-            <span className="text-gold text-sm font-medium">
+          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-slate-300/10 to-slate-400/5 px-6 py-3 rounded-full border border-slate-300/30">
+            <FaMedal className="text-slate-300 text-xl" />
+            <span className="text-slate-200 text-sm font-medium">
               Medalla Bodas de Plata 2020 · +31 años de trayectoria
             </span>
           </div>

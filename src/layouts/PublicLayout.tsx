@@ -22,10 +22,10 @@ const PublicLayout = () => {
 
   const loadingMessages = [
     'Dra. Sandra Delgadillo',
-    'Estudio Jurídico Delgadillo',
-    'Justicia con vocación',
-    'Abogada en Tucumán',
-    '31 años de experiencia',
+    'Excelencia y Trayectoria Jurídica',
+    'Derecho con Vocación',
+    'Compromiso y Solidez Profesional',
+    'Estudio Jurídico · Yerba Buena, Tucumán',
   ]
 
   const [messageIndex, setMessageIndex] = useState(0)
@@ -34,7 +34,7 @@ const PublicLayout = () => {
     if (isLoading) {
       const interval = setInterval(() => {
         setMessageIndex((prev) => (prev + 1) % loadingMessages.length)
-      }, 1000)
+      }, 1200)
       return () => clearInterval(interval)
     }
   }, [isLoading])
@@ -48,54 +48,72 @@ const PublicLayout = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-primary"
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-primary px-4"
           >
-            <div className="flex flex-col items-center gap-6">
+            {/* Contenedor principal con espaciado amplio y elegante */}
+            <div className="flex flex-col items-center max-w-md w-full text-center space-y-6">
+              
+              {/* Monograma SD con presencia */}
               <motion.div
-                animate={{ scale: [1, 1.15, 1], rotate: [0, 5, -5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                className="text-6xl font-serif font-bold text-gold"
+                animate={{ scale: [1, 1.08, 1], rotate: [0, 3, -3, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-20 h-20 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center shadow-[0_0_30px_rgba(201,169,110,0.15)] mb-1"
               >
-                SD
+                <span className="text-4xl font-serif font-bold text-gold tracking-wider">
+                  SD
+                </span>
               </motion.div>
 
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="text-gold/60 text-sm font-serif tracking-widest"
-              >
-                Delgadillo Abogada
-              </motion.p>
+              {/* Título institucional */}
+              <div className="space-y-1">
+                <motion.h1
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="text-white font-serif text-xl md:text-2xl font-semibold tracking-wide"
+                >
+                  Dra. Sandra Delgadillo
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-gold text-xs font-serif uppercase tracking-[0.25em]"
+                >
+                  Abogada Matriz
+                </motion.p>
+              </div>
 
-              <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden">
+              {/* Barra de progreso sutil */}
+              <div className="w-56 h-[2px] bg-white/10 rounded-full overflow-hidden my-2">
                 <motion.div
                   initial={{ x: '-100%' }}
                   animate={{ x: '100%' }}
-                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                  className="w-full h-full bg-gold rounded-full"
+                  transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+                  className="w-full h-full bg-gradient-to-r from-transparent via-gold to-transparent rounded-full"
                 />
               </div>
 
-              <motion.div
-                key={messageIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col items-center gap-1"
-              >
-                <p className="text-gray-400 text-sm font-light tracking-wider">
-                  {loadingMessages[messageIndex]}
-                </p>
-                <motion.p
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className="text-gold/40 text-xs font-light tracking-[0.2em]"
+              {/* Mensaje rotativo con altura fija para evitar saltos */}
+              <div className="h-12 flex flex-col items-center justify-center">
+                <motion.div
+                  key={messageIndex}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-1"
                 >
-                  ⚖️
-                </motion.p>
-              </motion.div>
+                  <p className="text-gray-300 text-sm font-light tracking-widest font-serif italic">
+                    "{loadingMessages[messageIndex]}"
+                  </p>
+                  <span className="text-gold/50 text-[10px] tracking-[0.3em]">
+                    ✦ ✦ ✦
+                  </span>
+                </motion.div>
+              </div>
+
             </div>
           </motion.div>
         )}

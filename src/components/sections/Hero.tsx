@@ -15,7 +15,7 @@ import {
   FaCheckCircle,
   FaAward,
   FaUsers,
-  FaMedal // 👈 NUEVO
+  FaMedal
 } from 'react-icons/fa'
 import { MdVerified, MdSecurity } from 'react-icons/md'
 import { useState, useEffect, Suspense } from 'react'
@@ -67,7 +67,7 @@ const Hero = () => {
   // Badges de confianza CON MEDALLA
   const trustBadges = [
     { icon: MdVerified, text: 'Matriculada en Tucumán', color: 'from-blue-500/20 to-cyan-500/20' },
-    { icon: FaMedal, text: 'Medalla Bodas de Plata 2020', color: 'from-gold/30 to-yellow-500/20' }, // 👈 NUEVO
+    { icon: FaMedal, text: 'Medalla Bodas de Plata 2020', color: 'from-gold/30 to-yellow-500/20' },
     { icon: FaCheckCircle, text: '31+ años de trayectoria', color: 'from-purple-500/20 to-pink-500/20' },
     { icon: MdSecurity, text: 'Confidencialidad Garantizada', color: 'from-green-500/20 to-emerald-500/20' }
   ]
@@ -149,53 +149,59 @@ const Hero = () => {
               </motion.span>
             </motion.div>
 
-            {/* Título */}
+            {/* Título optimizado y sin amontonarse */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="space-y-3"
+              className="space-y-4"
             >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold text-white leading-[1.1]">
-                <span className="block text-gold relative">
-                  <motion.span
-                    animate={{ 
-                      textShadow: [
-                        '0 0 20px rgba(201,169,110,0.1)',
-                        '0 0 40px rgba(201,169,110,0.3)',
-                        '0 0 20px rgba(201,169,110,0.1)'
-                      ]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    Dra. Sandra Delgadillo
-                  </motion.span>
-                  <motion.span
-                    className="absolute -top-1 -right-6 text-2xl"
-                    animate={{ y: [-5, 5, -5], rotate: [0, 10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    🏅
-                  </motion.span>
-                </span>
-                <span className="block text-3xl md:text-4xl lg:text-5xl text-gray-200 font-light mt-2">
-                  <span className="text-gold font-semibold">❝</span>
-                  <span className="text-gold font-semibold">Derecho con vocación</span>
-                  <span className="text-gold font-semibold">❞</span>
-                </span>
-              </h1>
+              <div className="space-y-3">
+                <h1 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold text-white leading-tight">
+                  <span className="block text-gold relative pb-1">
+                    <motion.span
+                      animate={{ 
+                        textShadow: [
+                          '0 0 20px rgba(201,169,110,0.1)',
+                          '0 0 40px rgba(201,169,110,0.3)',
+                          '0 0 20px rgba(201,169,110,0.1)'
+                        ]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      Dra. Sandra Delgadillo
+                    </motion.span>
+                    <motion.span
+                      className="absolute -top-1 -right-6 text-2xl hidden sm:inline-block"
+                      animate={{ y: [-5, 5, -5], rotate: [0, 10, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      🏅
+                    </motion.span>
+                  </span>
+                </h1>
 
-              {/* Subtítulo */}
+                {/* Frase institucional con margen superior adecuado */}
+                <div className="pt-1">
+                  <span className="text-2xl md:text-3xl text-gray-200 font-light font-serif tracking-wide block leading-snug">
+                    <span className="text-gold font-semibold">“</span>
+                    <span className="text-gold font-semibold italic">Derecho con vocación</span>
+                    <span className="text-gold font-semibold">”</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Subtítulo dinámico con altura fija para evitar saltos */}
               <motion.div 
-                className="h-12 md:h-14"
+                className="h-10 md:h-12 flex items-center pt-1"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
               >
-                <p className="text-xl md:text-2xl text-gray-300 font-light flex items-center gap-2">
-                  <span className="text-gold text-2xl">✦</span>
+                <p className="text-lg md:text-xl text-gray-300 font-light flex items-center gap-2">
+                  <span className="text-gold text-lg">✦</span>
                   <span className="min-w-[200px]">
-                    <span className="border-r-2 border-gold animate-pulse pr-2">
+                    <span className="border-r-2 border-gold animate-pulse pr-2 font-serif">
                       {displayText}
                     </span>
                   </span>
@@ -208,7 +214,7 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="flex flex-wrap gap-3"
+              className="flex flex-wrap gap-3 pt-1"
             >
               {keywords.map((word, index) => (
                 <motion.span
