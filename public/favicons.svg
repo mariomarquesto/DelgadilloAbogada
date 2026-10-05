@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Fondo circular oscuro opcional con borde dorado -->
+  <circle cx="256" cy="256" r="240" fill="#0B132B" stroke="#C9A96E" stroke-width="20" />
+  
+  <!-- Icono de balanza en color dorado (#C9A96E) -->
+  <g fill="#C9A96E">
+    <!-- Base y poste central -->
+    <path d="M236 120h40v260h-40z"/>
+    <path d="M176 380h160v30H176z"/>
+    <path d="M210 90h92v30h-92z"/>
+    <path d="M256 60l-30 40h60z"/>
+    
+    <!-- Barra horizontal superior -->
+    <path d="M116 140h280v20H116z"/>
+    
+    <!-- Cadenas izquierdas -->
+    <path d="M136 160l-30 90h60z" fill="none" stroke="#C9A96E" stroke-width="6"/>
+    <line x1="136" y1="160" x2="106" y2="250" stroke="#C9A96E" stroke-width="6"/>
+    <line x1="136" y1="160" x2="166" y2="250" stroke="#C9A96E" stroke-width="6"/>
+    <line x1="136" y1="160" x2="136" y2="250" stroke="#C9A96E" stroke-width="6"/>
+    
+    <!-- Platillo izquierdo -->
+    <path d="M80 250c0 20 25 35 56 35s56-15 56-35z"/>
+    
+    <!-- Cadenas derechas -->
+    <line x1="376" y1="160" x2="346" y2="250" stroke="#C9A96E" stroke-width="6"/>
+    <line x1="376" y1="160" x2="406" y2="250" stroke="#C9A96E" stroke-width="6"/>
+    <line x1="376" y1="160" x2="376" y2="250" stroke="#C9A96E" stroke-width="6"/>
+    
+    <!-- Platillo derecho -->
+    <path d="M320 250c0 20 25 35 56 35s56-15 56-35z"/>
+  </g>
+</svg>
