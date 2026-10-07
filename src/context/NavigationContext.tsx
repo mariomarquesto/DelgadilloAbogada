@@ -21,6 +21,8 @@ export const NavigationProvider = ({ children }: { children: ReactNode }) => {
   )
 }
 
+// Contexto + hook co-ubicados es un patrón intencional; fast-refresh no aplica aquí.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useNavigation = () => {
   const context = useContext(NavigationContext)
   if (!context) {

@@ -20,40 +20,50 @@ import {
 import { MdVerified, MdSecurity } from 'react-icons/md'
 import { useState, useEffect, Suspense } from 'react'
 
+// Texto para el efecto de escritura (a nivel de módulo para que sea estable entre renders)
+const textLines = [
+  'Sandra Delgadillo',
+  'Abogada con vocación',
+  '31 años de experiencia',
+]
+
 const Hero = () => {
-  // Texto para efecto de escritura
-  const textLines = [
-    'Sandra Delgadillo',
-    'Abogada con vocación',
-    '31 años de experiencia'
-  ]
   const [displayText, setDisplayText] = useState('')
   const [lineIndex, setLineIndex] = useState(0)
   const [charIndex, setCharIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
 
-  // Efecto de escritura
+  // Efecto de escritura: todo setState ocurre dentro de callbacks asíncronos
   useEffect(() => {
     const currentText = textLines[lineIndex]
-    
-    if (!isDeleting && charIndex <= currentText.length) {
-      const timer = setTimeout(() => {
-        setDisplayText(currentText.substring(0, charIndex + 1))
-        setCharIndex(charIndex + 1)
-      }, 80)
-      return () => clearTimeout(timer)
-    } else if (isDeleting && charIndex >= 0) {
-      const timer = setTimeout(() => {
-        setDisplayText(currentText.substring(0, charIndex - 1))
-        setCharIndex(charIndex - 1)
-      }, 40)
-      return () => clearTimeout(timer)
-    } else if (!isDeleting && charIndex > currentText.length) {
-      setTimeout(() => setIsDeleting(true), 1500)
-    } else if (isDeleting && charIndex === 0) {
-      setIsDeleting(false)
-      setLineIndex((prev) => (prev + 1) % textLines.length)
+    let timer: ReturnType<typeof setTimeout>
+
+    if (!isDeleting) {
+      if (charIndex < currentText.length) {
+        timer = setTimeout(() => {
+          setDisplayText(currentText.slice(0, charIndex + 1))
+          setCharIndex(charIndex + 1)
+        }, 80)
+      } else {
+        // Terminó de escribir → pausa y empieza a borrar
+        timer = setTimeout(() => setIsDeleting(true), 1500)
+      }
+    } else {
+      if (charIndex > 0) {
+        timer = setTimeout(() => {
+          setDisplayText(currentText.slice(0, charIndex - 1))
+          setCharIndex(charIndex - 1)
+        }, 40)
+      } else {
+        // Terminó de borrar → siguiente línea
+        timer = setTimeout(() => {
+          setIsDeleting(false)
+          setLineIndex((prev) => (prev + 1) % textLines.length)
+        }, 300)
+      }
     }
+
+    return () => clearTimeout(timer)
   }, [charIndex, isDeleting, lineIndex])
 
   // Estadísticas de confianza

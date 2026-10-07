@@ -12,6 +12,14 @@ const Navbar = () => {
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
   const isFirstRender = useRef(true)
 
+  // ─── Cerrar dropdown al cambiar de ruta ───────────────────
+  // Ajuste de estado durante el render (patrón recomendado en vez de un efecto)
+  const [prevPathname, setPrevPathname] = useState(location.pathname)
+  if (prevPathname !== location.pathname) {
+    setPrevPathname(location.pathname)
+    setActiveDropdown(null)
+  }
+
   // ─── Scroll ───────────────────────────────────────────────
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
@@ -20,10 +28,9 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // ─── Cerrar dropdown/menú al cambiar de ruta ──────────────
+  // ─── Cerrar menú móvil al cambiar de ruta ─────────────────
   // ⚠️ NO dependemos de closeMenu para evitar loops
   useEffect(() => {
-    setActiveDropdown(null)
     if (isFirstRender.current) {
       isFirstRender.current = false
       return

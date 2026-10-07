@@ -13,13 +13,8 @@ export default defineConfig({
       output: {
         // Code splitting manual para chunks grandes
         manualChunks(id) {
-          if (id.includes('node_modules/three')) return 'three'
-          if (
-            id.includes('node_modules/@react-three/fiber') ||
-            id.includes('node_modules/@react-three/drei')
-          ) {
-            return 'react-three'
-          }
+          // react-icons debe evaluarse ANTES que el prefijo genérico 'react'
+          if (id.includes('node_modules/react-icons')) return 'ui'
           if (
             id.includes('node_modules/react') ||
             id.includes('node_modules/react-dom') ||
@@ -28,7 +23,6 @@ export default defineConfig({
           ) {
             return 'vendor'
           }
-          if (id.includes('node_modules/react-icons')) return 'ui'
         },
       },
     },

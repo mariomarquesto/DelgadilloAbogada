@@ -1,11 +1,6 @@
 import { Link } from 'react-router-dom'
 import { 
-  FaFacebook, 
-  FaInstagram, 
-  FaLinkedin, 
   FaWhatsapp,
-  FaYoutube,
-  FaTwitter,
   FaMapMarkerAlt,
   FaPhone,
   FaEnvelope,
@@ -39,11 +34,6 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: FaWhatsapp, href: 'https://wa.me/5493815544143', label: 'WhatsApp', color: 'hover:text-green-400' },
-    { icon: FaFacebook, href: '#', label: 'Facebook', color: 'hover:text-blue-400' },
-    { icon: FaInstagram, href: '#', label: 'Instagram', color: 'hover:text-pink-400' },
-    { icon: FaLinkedin, href: '#', label: 'LinkedIn', color: 'hover:text-blue-500' },
-    { icon: FaYoutube, href: '#', label: 'YouTube', color: 'hover:text-red-500' },
-    { icon: FaTwitter, href: '#', label: 'Twitter', color: 'hover:text-blue-400' }
   ]
 
   const quickLinks = [
@@ -52,12 +42,6 @@ const Footer = () => {
     { path: '/divorcios', label: 'Divorcios' },
     { path: '/familia', label: 'Derecho de Familia' },
     { path: '/sucesiones', label: 'Sucesiones' }
-  ]
-
-  const legalLinks = [
-    { path: '/terminos', label: 'Términos y Condiciones' },
-    { path: '/privacidad', label: 'Política de Privacidad' },
-    { path: '/cookies', label: 'Política de Cookies' }
   ]
 
   return (
@@ -85,7 +69,7 @@ const Footer = () => {
               </h3>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              Asesoría jurídica integral con más de 15 años de experiencia en 
+              Asesoría jurídica integral con más de 31 años de experiencia en 
               derecho civil, laboral y sucesiones.
             </p>
             
@@ -97,7 +81,7 @@ const Footer = () => {
               </span>
               <span className="flex items-center gap-1 text-xs bg-white/5 text-gray-300 px-2 py-1 rounded-full">
                 <FaAward className="text-gold text-xs" />
-                15+ años
+                31+ años
               </span>
               <span className="flex items-center gap-1 text-xs bg-white/5 text-gray-300 px-2 py-1 rounded-full">
                 <FaGavel className="text-gold text-xs" />
@@ -225,22 +209,6 @@ const Footer = () => {
                   {isOpenNow ? 'Abierto' : 'Cerrado'}
                 </span>
               </div>
-            </div>
-
-            {/* Enlaces legales */}
-            <div className="mt-4 pt-4 border-t border-white/10">
-              <ul className="flex flex-wrap gap-3 text-xs">
-                {legalLinks.map((link, index) => (
-                  <li key={index}>
-                    <Link to={link.path} className="text-gray-400 hover:text-gold transition-colors">
-                      {link.label}
-                    </Link>
-                    {index < legalLinks.length - 1 && (
-                      <span className="text-gray-600 ml-1">|</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
             </div>
           </motion.div>
         </div>

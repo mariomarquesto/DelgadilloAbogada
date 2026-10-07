@@ -5,6 +5,14 @@ import Navbar from '../components/common/Navbar'
 import Footer from '../components/common/Footer'
 import { FaWhatsapp } from 'react-icons/fa'
 
+const loadingMessages = [
+  'Dra. Sandra Delgadillo',
+  'Excelencia y Trayectoria Jurídica',
+  'Derecho con Vocación',
+  'Compromiso y Solidez Profesional',
+  'Estudio Jurídico · Yerba Buena, Tucumán',
+]
+
 const PublicLayout = () => {
   const location = useLocation()
   const [isLoading, setIsLoading] = useState(true)
@@ -19,14 +27,6 @@ const PublicLayout = () => {
     const timer = setTimeout(() => setIsLoading(false), 600)
     return () => clearTimeout(timer)
   }, []) // ⬅️ sin dependencias → solo al montar
-
-  const loadingMessages = [
-    'Dra. Sandra Delgadillo',
-    'Excelencia y Trayectoria Jurídica',
-    'Derecho con Vocación',
-    'Compromiso y Solidez Profesional',
-    'Estudio Jurídico · Yerba Buena, Tucumán',
-  ]
 
   const [messageIndex, setMessageIndex] = useState(0)
 
@@ -81,7 +81,7 @@ const PublicLayout = () => {
                   transition={{ delay: 0.2 }}
                   className="text-gold text-xs font-serif uppercase tracking-[0.25em]"
                 >
-                  Abogada Matriz
+                  Abogada Matriculada
                 </motion.p>
               </div>
 
